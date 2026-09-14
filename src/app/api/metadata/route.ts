@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { sanitizeStreamTitle } from "@/lib/metadata-cleaner";
 
 export const dynamic = "force-dynamic";
 
@@ -71,10 +72,13 @@ export async function GET(request: NextRequest) {
           metaInt + 1 + metaLength
         );
         const metaStr = new TextDecoder("utf-8", { fatal: false }).decode(metaBytes);
-        const match = metaStr.match(/StreamTitle='([^']*)'/);
-        if (match && match[1]?.trim()) {
+        const match = metaStr.match(/StreamTitle='([^';]*)(?:'|;|$)/);
+        const rawTitle = match ? match[1]?.trim() : null;
+        const cleanedTitle = sanitizeStreamTitle(rawTitle);
+
+        if (cleanedTitle) {
           return NextResponse.json({
-            title: match[1].trim(),
+            title: cleanedTitle,
             stationName: icyName || null,
           });
         }

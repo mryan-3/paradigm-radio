@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Station } from "@/types/station";
+import { sanitizeStreamTitle } from "@/lib/metadata-cleaner";
 
 export function useStationMetadata(
   station: Station | null,
@@ -10,8 +11,9 @@ export function useStationMetadata(
   const [nowPlayingTrack, setNowPlayingTrack] = useState<string | null>(null);
 
   useEffect(() => {
+    setNowPlayingTrack(null);
+
     if (!station || !isPlaying) {
-      setNowPlayingTrack(null);
       return;
     }
 
@@ -24,8 +26,9 @@ export function useStationMetadata(
         );
         if (!res.ok) return;
         const data = await res.json();
-        if (isMounted && data.title) {
-          setNowPlayingTrack(data.title);
+        const cleaned = sanitizeStreamTitle(data.title);
+        if (isMounted && cleaned) {
+          setNowPlayingTrack(cleaned);
         }
       } catch {
         // Silently ignore metadata fetch errors

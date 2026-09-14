@@ -1,15 +1,26 @@
 import { Station, Genre } from "@/types/station";
-import { countryStations } from "./country-stations";
-import { gospelStations } from "./gospel-stations";
-import { bluesStations } from "./blues-stations";
+import { countryStations as rawCountry } from "./country-stations";
+import { gospelStations as rawGospel } from "./gospel-stations";
+import { bluesStations as rawBlues } from "./blues-stations";
 
-export { countryStations, gospelStations, bluesStations };
+function deduplicate(stations: Station[]): Station[] {
+  const seen = new Set<string>();
+  return stations.filter((s) => {
+    if (!s.id || seen.has(s.id)) return false;
+    seen.add(s.id);
+    return true;
+  });
+}
 
-export const allStations: Station[] = [
+export const countryStations: Station[] = deduplicate(rawCountry);
+export const gospelStations: Station[] = deduplicate(rawGospel);
+export const bluesStations: Station[] = deduplicate(rawBlues);
+
+export const allStations: Station[] = deduplicate([
   ...countryStations,
   ...gospelStations,
   ...bluesStations,
-];
+]);
 
 export function getStationsByGenre(genre: Genre): Station[] {
   if (genre === "all") return allStations;
