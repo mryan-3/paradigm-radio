@@ -1,32 +1,41 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
-import { AudioContextType, PlaybackStatus, Station } from "@/types/station";
+import React, { createContext, useContext, useCallback } from "react";
+import { AudioContextType, Station } from "@/types/station";
+import { useAudioPlayer } from "@/hooks/use-audio-player";
+import { useStationMetadata } from "@/hooks/use-station-metadata";
+import { allStations } from "@/data";
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
 
 export function AudioProvider({ children }: { children: React.ReactNode }) {
-  const [currentStation, setCurrentStation] = useState<Station | null>(null);
-  const [playbackStatus, setPlaybackStatus] = useState<PlaybackStatus>("idle");
-  const [volume, setVolume] = useState<number>(0.8);
-  const [isMuted, setIsMuted] = useState<boolean>(false);
-  const [nowPlayingTrack, setNowPlayingTrack] = useState<string | null>(null);
+  const {
+    currentStation,
+    playbackStatus,
+    isPlaying,
+    volume,
+    isMuted,
+    playStation,
+    togglePlay,
+    setVolume,
+    toggleMute,
+  } = useAudioPlayer();
 
-  const isPlaying = playbackStatus === "playing";
+  const nowPlayingTrack = useStationMetadata(currentStation, isPlaying);
 
-  const playStation = (station: Station) => {
-    setCurrentStation(station);
-    setPlaybackStatus("playing");
-  };
-
-  const togglePlay = () => {
+  const playNext = useCallback(() => {
     if (!currentStation) return;
-    setPlaybackStatus((prev) => (prev === "playing" ? "idle" : "playing"));
-  };
+    const currentIndex = allStations.findIndex((s) => s.id === currentStation.id);
+    const nextIndex = (currentIndex + 1) % allStations.length;
+    playStation(allStations[nextIndex]);
+  }, [currentStation, playStation]);
 
-  const toggleMute = () => setIsMuted((prev) => !prev);
-  const playNext = () => {};
-  const playPrevious = () => {};
+  const playPrevious = useCallback(() => {
+    if (!currentStation) return;
+    const currentIndex = allStations.findIndex((s) => s.id === currentStation.id);
+    const prevIndex = (currentIndex - 1 + allStations.length) % allStations.length;
+    playStation(allStations[prevIndex]);
+  }, [currentStation, playStation]);
 
   return (
     <AudioContext.Provider
