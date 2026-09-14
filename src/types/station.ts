@@ -3,16 +3,16 @@ export type Genre = "all" | "country" | "gospel" | "blues";
 export interface Station {
   id: string;
   name: string;
-  callSign?: string;
+  callSign?: string | null;
   genre: "country" | "gospel" | "blues";
   subGenre: string;
   city: string;
   state: string; // US State code (e.g. TN, TX, MS, GA, IL)
   streamUrl: string;
-  backupStreamUrl?: string;
+  backupStreamUrl?: string | null;
   bitrate?: number;
   format?: "mp3" | "aac" | "hls";
-  description?: string;
+  description?: string | null;
   featured?: boolean;
 }
 
