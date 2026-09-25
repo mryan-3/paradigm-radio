@@ -10,6 +10,7 @@ import { FrequencyTape } from "@/components/hardware/frequency-tape";
 
 interface RadioChassisProps {
   currentStation: Station | null;
+  nowPlayingTrack: string | null;
   isPlaying: boolean;
   onTogglePlay: () => void;
   onNext: () => void;
@@ -20,6 +21,7 @@ interface RadioChassisProps {
 
 export function RadioChassis({
   currentStation,
+  nowPlayingTrack,
   isPlaying,
   onTogglePlay,
   onNext,
@@ -28,17 +30,17 @@ export function RadioChassis({
   onOpenDirectory,
 }: RadioChassisProps) {
   return (
-    <div className="relative w-full max-w-5xl bg-[#F4F3EE] rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.1),0_1px_3px_rgba(0,0,0,0.06)] border border-[#E2DFD7] overflow-hidden flex flex-col md:flex-row min-h-[640px]">
-      <ArchivalColumn label="PARADIGM" year="1958" />
+    <div className="relative w-full max-w-5xl bg-[#F4F3EE] rounded-xl border-8 sm:border-[10px] md:border-[12px] border-[#191918] shadow-[0_24px_64px_rgba(0,0,0,0.14)] overflow-hidden flex flex-col md:flex-row min-h-[640px]">
+      <ArchivalColumn isPlaying={isPlaying} />
 
-      <div className="flex-1 flex flex-col justify-between p-6 sm:p-8 md:p-10 bg-[#F4F3EE]">
+      <div className="flex-1 min-w-0 flex flex-col justify-between p-6 sm:p-8 md:p-10 bg-[#F4F3EE]">
         <ExhibitionHeader
           currentStation={currentStation}
+          nowPlayingTrack={nowPlayingTrack}
           onOpenDirectory={onOpenDirectory}
         />
 
         <HardwareStage
-          currentStation={currentStation}
           isPlaying={isPlaying}
           onTogglePlay={onTogglePlay}
           onNext={onNext}

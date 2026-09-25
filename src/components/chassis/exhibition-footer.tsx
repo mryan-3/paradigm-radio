@@ -10,28 +10,28 @@ interface ExhibitionFooterProps {
 export function ExhibitionFooter({ currentStation }: ExhibitionFooterProps) {
   const origin = currentStation?.state
     ? `${currentStation.city || "USA"}, ${currentStation.state}`
-    : "United States";
-  const genre = currentStation?.genre || "American Roots";
-
-  const metadata = [
-    { label: "Object", value: "Acoustic Receiver" },
-    { label: "Origin", value: origin },
-    { label: "Format", value: genre },
-    { label: "Edition", value: "Paradigm 1958" },
-  ];
+    : currentStation?.city || "United States";
+  const genre = currentStation?.genre || "Roots";
 
   return (
-    <footer className="w-full grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-[#E2DFD7] select-none text-[11px]">
-      {metadata.map((item, i) => (
-        <div key={i} className="flex flex-col">
-          <span className="text-[#8A877F] uppercase tracking-wider text-[9px] font-mono">
-            {item.label}
-          </span>
-          <span className="text-[#191918] font-medium truncate mt-0.5">
-            {item.value}
-          </span>
-        </div>
-      ))}
+    <footer className="w-full flex items-center justify-between pt-4 border-t border-[#D5D1C7] select-none text-[11px]">
+      <div className="flex flex-col">
+        <span className="text-[#8A877F] uppercase tracking-wider text-[9px] font-mono">
+          Origin
+        </span>
+        <span className="text-[#191918] font-medium mt-0.5">
+          {origin}
+        </span>
+      </div>
+
+      <div className="flex flex-col text-right">
+        <span className="text-[#8A877F] uppercase tracking-wider text-[9px] font-mono">
+          Genre
+        </span>
+        <span className="text-[#191918] font-medium capitalize mt-0.5">
+          {genre}
+        </span>
+      </div>
     </footer>
   );
 }

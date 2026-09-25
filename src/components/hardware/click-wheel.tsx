@@ -21,8 +21,8 @@ export function ClickWheel({
 }: ClickWheelProps) {
   return (
     <div className="relative flex items-center justify-center w-56 h-56 sm:w-64 sm:h-64 rounded-full bg-[#1C1B1A] shadow-[0_4px_16px_rgba(0,0,0,0.12),inset_0_1px_1px_rgba(255,255,255,0.1)] select-none">
-      {/* Top Menu / Indicator Mark */}
-      <div className="absolute top-4 flex gap-1">
+      {/* Top Alignment Mark */}
+      <div className="absolute top-4 flex gap-1 pointer-events-none">
         <span className="w-1 h-1 rounded-full bg-[#52504B]" />
         <span className="w-1 h-1 rounded-full bg-[#52504B]" />
       </div>
@@ -45,13 +45,22 @@ export function ClickWheel({
         <SkipForwardIcon size={16} />
       </button>
 
-      {/* Center Tactile Play / Pause Core */}
+      {/* Bottom Play/Pause Quick Touch (Matching Ref 2) */}
+      <button
+        onClick={onTogglePlay}
+        aria-label={isPlaying ? "Pause" : "Play"}
+        className="absolute bottom-4 p-1.5 text-[#8A877F] hover:text-[#FAF7F2] active:scale-95 transition-all text-xs font-mono"
+      >
+        {isPlaying ? "||" : "▶"}
+      </button>
+
+      {/* Center Tactile Play / Pause Core Button */}
       <button
         onClick={onTogglePlay}
         aria-label={isPlaying ? "Pause audio" : "Play audio"}
-        className="flex items-center justify-center w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#DFDBD2] text-[#191918] shadow-[0_2px_8px_rgba(0,0,0,0.25),inset_0_1px_1px_rgba(255,255,255,0.7)] active:scale-95 transition-all"
+        className="flex items-center justify-center w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#DFDBD2] text-[#191918] shadow-[0_2px_8px_rgba(0,0,0,0.25),inset_0_1px_1px_rgba(255,255,255,0.7)] hover:bg-[#E7E4DC] active:scale-95 transition-all"
       >
-        {isPlaying ? <PauseIcon size={24} /> : <PlayIcon size={24} />}
+        {isPlaying ? <PauseIcon size={26} /> : <PlayIcon size={26} />}
       </button>
     </div>
   );

@@ -9,6 +9,7 @@ export default function Home() {
   const [isDirectoryOpen, setIsDirectoryOpen] = useState(false);
   const {
     currentStation,
+    nowPlayingTrack,
     isPlaying,
     togglePlay,
     playNext,
@@ -20,6 +21,7 @@ export default function Home() {
     <main className="min-h-screen w-full bg-[#E5E2DA] flex items-center justify-center p-4 sm:p-6 md:p-12 select-none font-sans">
       <RadioChassis
         currentStation={currentStation}
+        nowPlayingTrack={nowPlayingTrack}
         isPlaying={isPlaying}
         onTogglePlay={togglePlay}
         onNext={playNext}
