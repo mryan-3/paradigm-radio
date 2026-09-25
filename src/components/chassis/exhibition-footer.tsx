@@ -2,36 +2,41 @@
 
 import React from "react";
 import { Station } from "@/types/station";
+import { MobileFooterInfo } from "./mobile-footer-info";
 
-interface ExhibitionFooterProps {
+interface Props {
   currentStation: Station | null;
+  nowPlayingTrack: string | null;
+  isPlaying?: boolean;
+  isFavorite?: boolean;
+  onTogglePlay?: () => void;
+  onToggleFavorite?: () => void;
 }
 
-export function ExhibitionFooter({ currentStation }: ExhibitionFooterProps) {
-  const origin = currentStation?.state
-    ? `${currentStation.city || "USA"}, ${currentStation.state}`
-    : currentStation?.city || "United States";
+export function ExhibitionFooter({
+  currentStation,
+  nowPlayingTrack,
+  isPlaying = false,
+  isFavorite = false,
+  onTogglePlay,
+  onToggleFavorite,
+}: Props) {
+  const rawName = currentStation?.name || "Select Station";
+  const cleanName = rawName.includes("|") ? rawName.split("|")[0].trim() : rawName;
   const genre = currentStation?.genre || "Roots";
 
   return (
-    <footer className="w-full flex items-center justify-between pt-4 border-t border-[#D5D1C7] select-none text-[11px]">
-      <div className="flex flex-col">
-        <span className="text-[#8A877F] uppercase tracking-wider text-[9px] font-mono">
-          Origin
-        </span>
-        <span className="text-[#191918] font-medium mt-0.5">
-          {origin}
-        </span>
-      </div>
-
-      <div className="flex flex-col text-right">
-        <span className="text-[#8A877F] uppercase tracking-wider text-[9px] font-mono">
-          Genre
-        </span>
-        <span className="text-[#191918] font-medium capitalize mt-0.5">
-          {genre}
-        </span>
-      </div>
+    <footer className="w-full md:hidden pt-2 border-t border-[#D5D1C7] select-none text-[11px]">
+      <MobileFooterInfo
+        cleanName={cleanName}
+        rawName={rawName}
+        nowPlayingTrack={nowPlayingTrack}
+        genre={genre}
+        isPlaying={isPlaying}
+        isFavorite={isFavorite}
+        onTogglePlay={onTogglePlay}
+        onToggleFavorite={onToggleFavorite}
+      />
     </footer>
   );
 }

@@ -15,10 +15,12 @@ export default function Home() {
     playNext,
     playPrevious,
     playStation,
+    isFavorite,
+    toggleFavorite,
   } = useAudio();
 
   return (
-    <main className="min-h-screen w-full bg-[#E5E2DA] flex items-center justify-center p-4 sm:p-6 md:p-12 select-none font-sans">
+    <main className="fixed inset-0 w-full h-full overflow-hidden overscroll-none select-none font-sans bg-[#F4F3EE] md:bg-[#E5E2DA] flex items-center justify-center p-0 md:p-12">
       <RadioChassis
         currentStation={currentStation}
         nowPlayingTrack={nowPlayingTrack}
@@ -27,6 +29,10 @@ export default function Home() {
         onNext={playNext}
         onPrev={playPrevious}
         onSelectStation={playStation}
+        isFavorite={currentStation ? isFavorite(currentStation.id) : false}
+        onToggleFavorite={() =>
+          currentStation && toggleFavorite(currentStation.id)
+        }
         onOpenDirectory={() => setIsDirectoryOpen(true)}
       />
 

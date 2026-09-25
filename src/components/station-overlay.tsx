@@ -34,8 +34,8 @@ export function StationOverlay({ isOpen, onClose }: Props) {
   return (
     <div className={`fixed inset-0 z-50 transition-opacity duration-300 ${isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}>
       <div className="absolute inset-0 bg-[#191918]/40" onClick={onClose} />
-      <div className={`absolute top-0 bottom-0 left-0 w-full sm:max-w-md bg-[#F4F3EE] border-r-4 border-[#191918] shadow-2xl flex flex-col transition-transform duration-300 ${isOpen ? "translate-x-0" : "-translate-x-full"}`}>
-        <div className="p-4 border-b border-[#D5D1C7] flex items-center justify-between">
+      <div className={`absolute top-0 bottom-0 left-0 w-full sm:max-w-md bg-[#F4F3EE] border-r-4 border-[#191918] shadow-2xl flex flex-col transition-transform duration-300 ${isOpen ? "translate-x-0" : "-translate-x-full"} pb-[max(1rem,env(safe-area-inset-bottom))]`}>
+        <div className="p-4 border-b border-[#D5D1C7] flex items-center justify-between pt-[max(1rem,env(safe-area-inset-top))]">
           <div>
             <h2 className="text-lg font-normal text-[#191918]">Station Directory</h2>
             <p className="text-xs text-[#706E66] font-mono">{filtered.length} stations</p>

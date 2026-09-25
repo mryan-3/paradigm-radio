@@ -8,7 +8,7 @@ interface ArchivalColumnProps {
 
 export function ArchivalColumn({ isPlaying }: ArchivalColumnProps) {
   return (
-    <aside className="relative w-24 sm:w-32 md:w-44 lg:w-52 shrink-0 bg-[#191918] text-[#FAF7F2] flex flex-col justify-between items-center py-6 select-none border-r-[6px] border-[#141413] overflow-hidden">
+    <aside className="relative w-28 sm:w-36 md:w-44 lg:w-52 shrink-0 bg-[#191918] text-[#FAF7F2] flex flex-col justify-between items-center py-6 select-none border-r-[6px] border-[#141413] overflow-hidden">
       {/* Top Section with Machined Fastener & Radio Headline */}
       <div className="flex flex-col items-center gap-4 z-10">
         <svg width="12" height="12" viewBox="0 0 12 12" className="text-[#3E3C38]">

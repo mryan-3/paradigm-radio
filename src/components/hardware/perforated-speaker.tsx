@@ -20,7 +20,7 @@ export function PerforatedSpeaker({ isPlaying }: PerforatedSpeakerProps) {
   ];
 
   return (
-    <div className="relative flex items-center justify-center w-56 h-56 sm:w-64 sm:h-64 rounded-full bg-[#DFDBD2] shadow-[inset_0_2px_4px_rgba(0,0,0,0.06),0_1px_2px_rgba(255,255,255,0.8)] select-none">
+    <div className="relative flex items-center justify-center w-52 h-52 sm:w-60 sm:h-60 md:w-68 md:h-68 lg:w-72 lg:h-72 rounded-full bg-[#DFDBD2] shadow-[inset_0_2px_4px_rgba(0,0,0,0.06),0_2px_10px_rgba(255,255,255,0.8)] select-none shrink-0">
       <svg
         viewBox="-110 -110 220 220"
         className="w-full h-full p-3 pointer-events-none"
@@ -28,9 +28,9 @@ export function PerforatedSpeaker({ isPlaying }: PerforatedSpeakerProps) {
         {rings.map((ring, ringIdx) => {
           return Array.from({ length: ring.count }).map((_, dotIdx) => {
             const angle = (dotIdx / ring.count) * 2 * Math.PI;
-            const cx = ring.radius === 0 ? 0 : Math.cos(angle) * ring.radius;
-            const cy = ring.radius === 0 ? 0 : Math.sin(angle) * ring.radius;
-            const delay = (ringIdx * 0.1 + dotIdx * 0.02) % 1.2;
+            const cx = ring.radius === 0 ? 0 : Math.round(Math.cos(angle) * ring.radius * 100) / 100;
+            const cy = ring.radius === 0 ? 0 : Math.round(Math.sin(angle) * ring.radius * 100) / 100;
+            const delay = Math.round(((ringIdx * 0.1 + dotIdx * 0.02) % 1.2) * 100) / 100;
 
             return (
               <circle

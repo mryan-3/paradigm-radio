@@ -31,7 +31,7 @@ export function FrequencyTape({
   };
 
   return (
-    <div className="w-full flex flex-col gap-2 select-none py-3 cursor-pointer">
+    <div className="w-full flex flex-col gap-1.5 sm:gap-2 select-none py-1.5 sm:py-3 cursor-pointer">
       <div
         ref={tapeRef}
         onClick={handlePointerDown}
