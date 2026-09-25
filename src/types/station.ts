@@ -1,4 +1,4 @@
-export type Genre = "all" | "country" | "gospel" | "blues";
+export type Genre = "all" | "country" | "gospel" | "blues" | "favorites";
 
 export interface Station {
   id: string;
@@ -7,7 +7,7 @@ export interface Station {
   genre: "country" | "gospel" | "blues";
   subGenre: string;
   city: string;
-  state: string; // US State code (e.g. TN, TX, MS, GA, IL)
+  state: string;
   streamUrl: string;
   backupStreamUrl?: string | null;
   bitrate?: number;
@@ -25,10 +25,14 @@ export interface AudioContextType {
   volume: number;
   isMuted: boolean;
   nowPlayingTrack: string | null;
+  favorites: string[];
   playStation: (station: Station) => void;
   togglePlay: () => void;
   setVolume: (volume: number) => void;
   toggleMute: () => void;
   playNext: () => void;
   playPrevious: () => void;
+  playRandom: () => void;
+  toggleFavorite: (stationId: string) => void;
+  isFavorite: (stationId: string) => boolean;
 }

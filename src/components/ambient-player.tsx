@@ -3,11 +3,14 @@
 import { useAudio } from "@/context/audio-context";
 import { WavesIcon } from "@/components/icons/waves-icon";
 import { SearchIcon } from "@/components/icons/search-icon";
+import { ShuffleIcon } from "@/components/icons/shuffle-icon";
+import { HeartIcon } from "@/components/icons/heart-icon";
 
 interface Props { onOpenStations?: () => void; }
 
 export function AmbientPlayer({ onOpenStations }: Props) {
-  const { currentStation, nowPlayingTrack, isPlaying } = useAudio();
+  const { currentStation, nowPlayingTrack, isPlaying, playRandom, toggleFavorite, isFavorite } = useAudio();
+  const favorited = currentStation ? isFavorite(currentStation.id) : false;
 
   if (!currentStation) {
     return (
@@ -18,15 +21,16 @@ export function AmbientPlayer({ onOpenStations }: Props) {
         <p className="mt-2.5 text-xs sm:text-sm font-sans font-light text-white/60">
           Over 250 curated American country, gospel, and blues radio stations
         </p>
-        {onOpenStations && (
-          <button
-            onClick={onOpenStations}
-            className="mt-5 sm:mt-6 flex items-center gap-2 px-5 sm:px-6 py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md text-white text-xs sm:text-sm font-medium transition-all shadow-xl active:scale-95"
-          >
-            <SearchIcon size={15} />
-            <span>Browse Stations</span>
+        <div className="mt-5 sm:mt-6 flex items-center gap-3 flex-wrap justify-center">
+          {onOpenStations && (
+            <button onClick={onOpenStations} className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md text-white text-xs sm:text-sm font-medium transition-all shadow-xl active:scale-95">
+              <SearchIcon size={15} /><span>Browse Stations</span>
+            </button>
+          )}
+          <button onClick={playRandom} className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 backdrop-blur-md text-white text-xs sm:text-sm font-medium transition-all shadow-xl active:scale-95">
+            <ShuffleIcon size={15} /><span>Random Station</span>
           </button>
-        )}
+        </div>
       </div>
     );
   }
@@ -38,19 +42,18 @@ export function AmbientPlayer({ onOpenStations }: Props) {
           <WavesIcon isPlaying={isPlaying} />
         </div>
       </div>
-      
-      <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-normal tracking-tight text-center leading-tight drop-shadow-2xl max-w-2xl px-2">
-        {currentStation.name}
-      </h2>
+
+      <div className="flex items-center justify-center gap-3 max-w-2xl px-2">
+        <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-normal tracking-tight text-center leading-tight drop-shadow-2xl">
+          {currentStation.name}
+        </h2>
+        <button onClick={() => toggleFavorite(currentStation.id)} aria-label="Toggle Favorite" className="p-2 rounded-full hover:bg-white/10 transition-colors text-white/70 hover:text-white shrink-0">
+          <HeartIcon size={22} filled={favorited} className={favorited ? "text-red-400" : ""} />
+        </button>
+      </div>
 
       <div className="mt-3 sm:mt-4 min-h-[3rem] sm:min-h-[3.5rem] flex items-center justify-center px-2 max-w-xl">
-        <p
-          className={`text-base sm:text-xl md:text-2xl font-sans text-center transition-all duration-700 line-clamp-2 ${
-            nowPlayingTrack
-              ? "text-white font-medium drop-shadow-lg"
-              : "text-white/60 font-light italic"
-          }`}
-        >
+        <p className={`text-base sm:text-xl md:text-2xl font-sans text-center transition-all duration-700 line-clamp-2 ${nowPlayingTrack ? "text-white font-medium drop-shadow-lg" : "text-white/60 font-light italic"}`}>
           {nowPlayingTrack || "Live Broadcast"}
         </p>
       </div>

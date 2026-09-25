@@ -1,13 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
+  --background: #F4F3EE;
+  --foreground: #191918;
+  --surface-chassis: #E9E6DF;
+  --surface-dial: #DFDBD2;
+  --surface-recessed: #D5D1C7;
+  --text-muted: #706E66;
+  --accent-vermillion: #FF4E17;
+  --strip-charcoal: #1E1D1B;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-chassis: var(--surface-chassis);
+  --color-dial: var(--surface-dial);
+  --color-recessed: var(--surface-recessed);
+  --color-muted: var(--text-muted);
+  --color-vermillion: var(--accent-vermillion);
+  --color-charcoal: var(--strip-charcoal);
   --font-serif: var(--font-fraunces), Georgia, serif;
   --font-sans: var(--font-dm-sans), -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -17,24 +29,25 @@ body {
   color: var(--foreground);
   font-family: var(--font-dm-sans), -apple-system, BlinkMacSystemFont, sans-serif;
   min-height: 100vh;
-  overflow: hidden; /* Hide scrollbars for the ambient fullscreen experience */
+  overflow-x: hidden;
 }
 
-/* Custom scrollbar and smooth touch scrolling for the glass menu */
-.glass-scroll {
+/* Archival catalog custom scrollbar */
+.catalog-scroll {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
 }
-.glass-scroll::-webkit-scrollbar {
+.catalog-scroll::-webkit-scrollbar {
   width: 4px;
 }
-.glass-scroll::-webkit-scrollbar-track {
+.catalog-scroll::-webkit-scrollbar-track {
   background: transparent;
 }
-.glass-scroll::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
+.catalog-scroll::-webkit-scrollbar-thumb {
+  background: rgba(25, 25, 24, 0.15);
   border-radius: 9999px;
 }
-.glass-scroll::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.4);
+.catalog-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(25, 25, 24, 0.3);
 }
+

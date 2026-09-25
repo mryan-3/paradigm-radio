@@ -3,9 +3,13 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { PlaybackStatus, Station } from "@/types/station";
 
+import { allStations } from "@/data";
+
 export function useAudioPlayer() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [currentStation, setCurrentStation] = useState<Station | null>(null);
+  const [currentStation, setCurrentStation] = useState<Station | null>(
+    () => allStations[0] || null
+  );
   const [playbackStatus, setPlaybackStatus] = useState<PlaybackStatus>("idle");
   const [volume, setVolumeState] = useState<number>(0.8);
   const [isMuted, setIsMuted] = useState<boolean>(false);
@@ -18,7 +22,6 @@ export function useAudioPlayer() {
     const onPlaying = () => setPlaybackStatus("playing");
     const onWaiting = () => setPlaybackStatus("buffering");
     const onError = () => {
-      // Fallback through proxy if direct stream failed
       if (audio.src && !audio.src.includes("/api/stream") && currentStation) {
         audio.src = `/api/stream?url=${encodeURIComponent(currentStation.streamUrl)}`;
         audio.play().catch(() => setPlaybackStatus("error"));
@@ -45,11 +48,9 @@ export function useAudioPlayer() {
     setPlaybackStatus("buffering");
     if (!audioRef.current) return;
     audioRef.current.pause();
-    // Try direct playback first
     audioRef.current.src = station.streamUrl;
     audioRef.current.volume = isMuted ? 0 : volume;
     audioRef.current.play().catch(() => {
-      // Proxy fallback on initial failure
       if (audioRef.current) {
         audioRef.current.src = `/api/stream?url=${encodeURIComponent(station.streamUrl)}`;
         audioRef.current.play().catch(() => setPlaybackStatus("error"));
@@ -58,15 +59,22 @@ export function useAudioPlayer() {
   }, [isMuted, volume]);
 
   const togglePlay = useCallback(() => {
-    if (!audioRef.current || !currentStation) return;
+    if (!audioRef.current) return;
+    const target = currentStation || allStations[0];
+    if (!target) return;
+
     if (playbackStatus === "playing") {
       audioRef.current.pause();
       setPlaybackStatus("idle");
     } else {
-      setPlaybackStatus("buffering");
-      audioRef.current.play().catch(() => setPlaybackStatus("error"));
+      if (!audioRef.current.src || audioRef.current.src === "") {
+        playStation(target);
+      } else {
+        setPlaybackStatus("buffering");
+        audioRef.current.play().catch(() => playStation(target));
+      }
     }
-  }, [currentStation, playbackStatus]);
+  }, [currentStation, playbackStatus, playStation]);
 
   const setVolume = useCallback((newVol: number) => {
     setVolumeState(newVol);

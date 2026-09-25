@@ -43,6 +43,7 @@ export function getStationCounts(): Record<Genre, number> {
     country: countryStations.length,
     gospel: gospelStations.length,
     blues: bluesStations.length,
+    favorites: 0,
   };
 }
 
