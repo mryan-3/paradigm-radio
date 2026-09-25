@@ -2,8 +2,7 @@
 
 import React from "react";
 import { HeartIcon } from "@/components/icons/heart-icon";
-import { PlayIcon } from "@/components/icons/play-icon";
-import { PauseIcon } from "@/components/icons/pause-icon";
+import { MobilePlaybackControls } from "./mobile-playback-controls";
 
 interface Props {
   cleanName: string;
@@ -13,6 +12,8 @@ interface Props {
   isPlaying?: boolean;
   isFavorite?: boolean;
   onTogglePlay?: () => void;
+  onNext?: () => void;
+  onPrev?: () => void;
   onToggleFavorite?: () => void;
 }
 
@@ -24,22 +25,13 @@ export function MobileFooterInfo({
   isPlaying,
   isFavorite,
   onTogglePlay,
+  onNext,
+  onPrev,
   onToggleFavorite,
 }: Props) {
   return (
-    <div className="flex md:hidden flex-col gap-1 w-full">
-      {onTogglePlay && (
-        <div className="flex justify-center mb-0.5">
-          <button
-            onClick={onTogglePlay}
-            aria-label={isPlaying ? "Pause" : "Play"}
-            className="w-11 h-11 rounded-full bg-[#191918] text-[#FAF7F2] flex items-center justify-center active:scale-95 transition-all shadow-md"
-          >
-            {isPlaying ? <PauseIcon size={18} /> : <PlayIcon size={18} className="ml-0.5" />}
-          </button>
-        </div>
-      )}
-
+    <div className="flex md:hidden flex-col gap-2 w-full">
+      {/* Titles & Metadata */}
       <div className="flex items-center justify-between gap-3">
         <div className="flex-1 min-w-0 flex flex-col">
           <h2 title={rawName} className="text-base font-normal tracking-tight text-[#191918] truncate leading-tight">
@@ -60,6 +52,14 @@ export function MobileFooterInfo({
           </button>
         )}
       </div>
+
+      {/* Controls Cluster Below Titles */}
+      <MobilePlaybackControls
+        isPlaying={isPlaying}
+        onTogglePlay={onTogglePlay}
+        onNext={onNext}
+        onPrev={onPrev}
+      />
     </div>
   );
 }

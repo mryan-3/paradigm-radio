@@ -4,6 +4,7 @@ import React from "react";
 import { Station } from "@/types/station";
 import { useCurrentTime } from "@/hooks/use-current-time";
 import { HeartIcon } from "@/components/icons/heart-icon";
+import { RadioMascot } from "./radio-mascot";
 
 interface ExhibitionHeaderProps {
   currentStation: Station | null;
@@ -27,7 +28,12 @@ export function ExhibitionHeader({
 
   return (
     <header className="w-full flex items-start justify-between border-b border-[#D5D1C7] pb-3 md:pb-4 mb-2 md:mb-3 select-none">
-      {/* Desktop Station Name, Track, and Genre (Hidden on Mobile) */}
+      {/* Mobile Mascot Avatar */}
+      <div className="flex md:hidden items-center">
+        <RadioMascot size={38} />
+      </div>
+
+      {/* Desktop Station Name, Track, and Genre */}
       <div className="hidden md:flex flex-col flex-1 min-w-0 pr-4">
         <h1
           title={rawName}
@@ -44,8 +50,9 @@ export function ExhibitionHeader({
         </div>
       </div>
 
-      {/* Header Actions (Stations Directory & Desktop Favorite) */}
+      {/* Header Actions (Mascot, Favorite, Stations Directory) */}
       <div className="ml-auto shrink-0 flex items-center gap-2">
+        <RadioMascot size={44} className="hidden md:flex" />
         {onToggleFavorite && (
           <button
             onClick={onToggleFavorite}

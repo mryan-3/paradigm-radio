@@ -64,6 +64,8 @@ export function RadioChassis({
           isPlaying={isPlaying}
           isFavorite={isFavorite}
           onTogglePlay={onTogglePlay}
+          onNext={onNext}
+          onPrev={onPrev}
           onToggleFavorite={onToggleFavorite}
         />
       </div>

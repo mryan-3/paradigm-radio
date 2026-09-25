@@ -10,6 +10,8 @@ interface Props {
   isPlaying?: boolean;
   isFavorite?: boolean;
   onTogglePlay?: () => void;
+  onNext?: () => void;
+  onPrev?: () => void;
   onToggleFavorite?: () => void;
 }
 
@@ -19,6 +21,8 @@ export function ExhibitionFooter({
   isPlaying = false,
   isFavorite = false,
   onTogglePlay,
+  onNext,
+  onPrev,
   onToggleFavorite,
 }: Props) {
   const rawName = currentStation?.name || "Select Station";
@@ -35,6 +39,8 @@ export function ExhibitionFooter({
         isPlaying={isPlaying}
         isFavorite={isFavorite}
         onTogglePlay={onTogglePlay}
+        onNext={onNext}
+        onPrev={onPrev}
         onToggleFavorite={onToggleFavorite}
       />
     </footer>
